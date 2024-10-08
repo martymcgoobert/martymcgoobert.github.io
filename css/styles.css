@@ -1,0 +1,599 @@
+@font-face {
+    font-family: 'Geist';
+    src: url('../fonts/GeistVF.woff2') format('woff2-variations'),
+         url('../fonts/GeistVF.woff') format('woff-variations');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+:root {
+    --Primary-Blue: #3212C3;
+    --Secondary-White: #FFFCED;
+    --container-max-width: 1440px;
+    --container-height: 1024px;
+    --container-padding-top-bottom: 20px;
+    --container-padding-left-right: 40px;
+}
+
+body, html {
+    font-family: 'Geist', sans-serif;
+    background-color: var(--Secondary-White);
+    color: var(--Primary-Blue);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    height: var(--container-height);
+    padding: var(--container-padding-top-bottom) var(--container-padding-left-right);
+    overflow-y: auto;
+    background-color: var(--Secondary-White);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Adjust the main content to take up available space and add bottom margin */
+main {
+    width: 1360px;
+    height: 812px;
+    margin: 0 auto; /* This centers the main container horizontally */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure projects container doesn't overflow the bottom margin */
+.projects-container {
+    margin-bottom: 0;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 1440px) {
+    body {
+        align-items: flex-start;
+    }
+
+    .container {
+        height: auto;
+        min-height: 100vh;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --container-padding-left-right: 20px;
+    }
+
+    .container {
+        padding: var(--container-padding-top-bottom) var(--container-padding-left-right);
+    }
+
+    /* ... existing mobile styles ... */
+}
+
+/* Typography Styles */
+.display-l {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -1.28px;
+}
+
+.display-m {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.96px;
+}
+
+h1, .h1 {
+    font-size: 38px;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.38px;
+}
+
+h2, .h2 {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.3px;
+}
+
+h3, .h3 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+.body-l {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.body-s {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+/* Existing styles */
+header {
+    margin-bottom: 60px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--Secondary-White); /* Ensure the container background matches the page */
+}
+
+.logo img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain; /* This maintains the aspect ratio */
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lets-talk {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--Primary-Blue, #3212C3);
+    font-family: 'Geist', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 30px */
+}
+
+.btn {
+    display: flex;
+    padding: 10px 16px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background: var(--Primary-Blue, #3212C3);
+    color: var(--Secondary-White);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 300ms ease-in-out;
+}
+
+.btn:hover {
+    background: #502AFF;
+}
+
+.project {
+    margin-bottom: 2rem;
+}
+
+.project h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.gif-container {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 0; /* Removes any line-height space */
+}
+
+.project-icon {
+    width: 100%;
+    height: 100%;
+    display: block; /* Removes inline spacing */
+    object-fit: cover;
+}
+
+.project img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid var(--Primary-Blue);
+}
+
+.header-content {
+    display: flex;
+    width: 670px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 60px; /* This creates the 60px space above the projects container */
+}
+
+.name-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    align-self: stretch;
+}
+
+.name-container h1 {
+    margin: 0;
+    color: var(--Primary-Blue, #3212C3);
+    font-family: 'Geist', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%; /* 36px */
+}
+
+.description-container {
+    align-self: stretch;
+}
+
+.description-container h2 {
+    margin: 0;
+    color: var(--Primary-Blue, #3212C3);
+    font-family: 'Geist', sans-serif;
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%; /* 57px */
+    letter-spacing: -0.38px;
+}
+
+/* New styles for project content */
+.projects-container {
+    display: flex;
+    width: 1360px;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    margin-top: 60px; /* This creates 60px space above the projects */
+    margin-top: 0; /* Remove any top margin */
+}
+
+.project-frame {
+    /* Add your existing project frame styles here */
+    flex: 1;
+    margin: 0 8px;
+}
+
+.project-header {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    height: 30px;
+}
+
+.project-header h3 {
+    color: var(--Primary-Blue, #3212C3);
+    font-family: 'Geist', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 30px */
+    margin: 0;
+}
+
+.gif-container {
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+}
+
+.project-icon {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.project-screenshot {
+    display: flex;
+    height: 447px;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+}
+
+.project-screenshot img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 20px;
+}
+
+.profile-container {
+    display: flex;
+    width: 670px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 60px; /* This creates 60px space between description and projects */
+}
+
+.profile-container h3 {
+    margin: 0;
+    /* Add any specific styles for the h3 here */
+}
+
+.animation-container {
+    width: 670px;
+    height: 171px;
+    overflow: hidden;
+    display: flex;
+}
+
+#description {
+    margin: 0;
+    padding: 0;
+    color: var(--Primary-Blue, #3212C3);
+    font-family: Geist, sans-serif; /* Fallback to sans-serif if Geist is not available */
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%; /* This will compute to 57px based on the font size */
+    letter-spacing: -0.38px;
+    white-space: normal;
+    overflow: visible;
+    word-wrap: break-word;
+    align-self: stretch;
+    width: 100%;
+}
+
+/* Fade-in animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger the fade-in effect */
+nav { animation-delay: 0.1s; }
+.profile-container { animation-delay: 0.2s; }
+.projects-container .project-frame:nth-child(1) { animation-delay: 0.3s; }
+.projects-container .project-frame:nth-child(2) { animation-delay: 0.4s; }
+
+/* Responsive design */
+@media (max-width: 1400px) {
+    .projects-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .project-frame {
+        margin: 8px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 0 20px;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0px;
+    }
+
+    .nav-container {
+        flex-wrap: wrap;
+    }
+
+    .profile-container {
+        width: 100%;
+    }
+
+    #description {
+        font-size: 28px;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Geist, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 1440px;
+    height: 1024px;
+    padding: 20px 40px;
+    overflow-y: auto;
+    background-color: var(--Secondary-White);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    margin-bottom: 60px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-container {
+    display: flex;
+    width: 670px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 60px; /* This creates 60px space between description and projects */
+}
+
+.profile-container h3 {
+    margin: 0;
+    /* Add any specific styles for the h3 here */
+}
+
+.animation-container {
+    width: 670px;
+    height: 171px;
+    overflow: hidden;
+    display: flex;
+}
+
+#description {
+    margin: 0;
+    padding: 0;
+    color: var(--Primary-Blue, #3212C3);
+    font-family: Geist, sans-serif; /* Fallback to sans-serif if Geist is not available */
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%; /* This will compute to 57px based on the font size */
+    letter-spacing: -0.38px;
+    white-space: normal;
+    overflow: visible;
+    word-wrap: break-word;
+    align-self: stretch;
+    width: 100%;
+}
+
+.projects-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.project-frame {
+    display: flex;
+    width: 670px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.project-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-screenshot img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+/* Fade-in animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger the fade-in effect */
+nav { animation-delay: 0.1s; }
+.profile-container { animation-delay: 0.2s; }
+.projects-container .project-frame:nth-child(1) { animation-delay: 0.3s; }
+.projects-container .project-frame:nth-child(2) { animation-delay: 0.4s; }
+
+/* Responsive design */
+@media (max-width: 1440px) {
+    body {
+        align-items: flex-start;
+    }
+
+    .container {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+    }
+}
+
+/* Add this to your existing CSS */
+
+/* Responsive scaling */
+@media (max-width: 1360px) {
+    main {
+        width: 100%;
+        height: auto;
+    }
+
+    .projects-container {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .project-frame.fade-in {
+        width: 100%;
+        max-width: 670px;
+    }
+
+    .project-header {
+        width: 100%;
+    }
+}
+
+@media (max-width: 670px) {
+    .profile-container {
+        width: 100%;
+    }
+
+    #description {
+        font-size: 28px;
+    }
+}
+
+/* Hover effect for project images */
+.project-screenshot img {
+    transition: opacity 0.3s ease;
+}
+
+.project-frame:hover .project-screenshot img {
+    opacity: 0.8;
+}
