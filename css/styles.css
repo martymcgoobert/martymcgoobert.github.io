@@ -413,6 +413,10 @@ nav { animation-delay: 0.1s; }
     #description {
         font-size: 28px;
     }
+
+    #mouse-follower {
+        display: none;
+    }
 }
 
 * {
@@ -596,4 +600,202 @@ nav { animation-delay: 0.1s; }
 
 .project-frame:hover .project-screenshot img {
     opacity: 0.8;
+}
+
+#mouse-follower {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(50, 18, 195, 0.2);
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform 0.15s ease-out;
+    z-index: 9999;
+}
+
+#mouse-follower.clicked {
+    animation: popAnimation 0.3s ease-out;
+}
+
+@keyframes popAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Mobile Navigation Styles */
+.burger-menu {
+    display: none;
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: var(--Primary-Blue);
+    border-radius: 50%; /* This makes it fully rounded */
+}
+
+.burger-icon {
+    width: 16px;
+    height: 16px; /* Adjusted for better burger icon proportions */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.burger-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--Secondary-White); /* Changed to Secondary White */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    :root {
+        --container-padding-left-right: 0px;
+    }
+
+    .container {
+        padding: var(--container-padding-top-bottom) var(--container-padding-left-right);
+    }
+
+    nav {
+        flex-direction: row; /* Keep the nav as a row */
+        align-items: center;
+        justify-content: space-between;
+        padding: 0; /* Remove padding, it's handled by .container */
+    }
+
+    .nav-container {
+        display: none; /* Hide the original nav container */
+    }
+
+    .burger-menu {
+        display: flex; /* Show the burger menu */
+    }
+
+    .profile-container {
+        width: 100%;
+    }
+
+    #description {
+        font-size: 28px;
+    }
+
+    #mouse-follower {
+        display: none;
+    }
+}
+
+/* New breakpoint for smaller screens */
+@media (max-width: 650px) {
+    /* Existing adjustments */
+    .project-frame {
+        width: 100%;
+        max-width: none;
+        padding: 10px 0;
+        margin-bottom: 20px;
+    }
+
+    .project-screenshot {
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+    }
+
+    .project-screenshot img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+        max-height: 100%;
+    }
+
+    /* Typography adjustments */
+    h3, .h3,
+    .project-header h3 {  /* Added this line */
+        font-size: 16px; /* Body S */
+        line-height: 150%;
+    }
+
+    #description, 
+    .description-container h2 {
+        font-size: 20px; /* Body L */
+        line-height: 150%;
+        letter-spacing: normal;
+    }
+
+    /* Adjust spacing if needed */
+    .project-header {
+        margin-bottom: 10px;
+    }
+
+    /* Other potential adjustments */
+    .header-content,
+    .profile-container {
+        width: 100%;
+    }
+
+    /* Ensure all text in project headers uses Body S style */
+    .project-header,
+    .project-header * {
+        font-size: 16px;
+        line-height: 150%;
+    }
+}
+
+.mobile-nav-dropdown {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    right: 20px;
+    background-color: var(--Secondary-White);
+    border: 1px solid var(--Primary-Blue);
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.close-dropdown {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--Primary-Blue);
+}
+
+.dropdown-link {
+    display: block;
+    padding: 10px 0;
+    color: var(--Primary-Blue);
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 150%;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    z-index: 999;
+}
+
+@media (min-width: 769px) {
+    .mobile-nav-dropdown, .overlay {
+        display: none !important;
+    }
 }
