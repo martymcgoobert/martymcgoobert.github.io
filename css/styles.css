@@ -7,8 +7,8 @@
 }
 
 :root {
-    --Primary-Blue: #3212C3;
-    --Secondary-White: #FFFCED;
+    --Primary-Black: #000000;
+    --Secondary-White: #ffffff;
     --container-max-width: 1440px;
     --container-height: 1024px;
     --container-padding-top-bottom: 20px;
@@ -18,7 +18,7 @@
 body, html {
     font-family: 'Geist', sans-serif;
     background-color: var(--Secondary-White);
-    color: var(--Primary-Blue);
+    color: var(--Primary-Black);
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -142,13 +142,41 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--Secondary-White); /* Ensure the container background matches the page */
+    background-color: var(--Secondary-White);
+    position: relative;
+    overflow: hidden;
 }
 
 .logo img {
-    width: 30px;
-    height: 30px;
-    object-fit: contain; /* This maintains the aspect ratio */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: clip-path 0.3s ease-out;
+}
+
+.logo::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.2);
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 0.3s ease-out;
+}
+
+.logo:hover::after {
+    clip-path: inset(0 0 0 0);
+}
+
+@keyframes cascadeIn {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+.logo:hover img {
+    animation: cascadeIn 0.5s ease-out forwards;
 }
 
 .nav-container {
@@ -161,7 +189,7 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--Primary-Blue, #3212C3);
+    color: var(--Primary-Black, #000000);
     font-family: 'Geist', sans-serif;
     font-size: 20px;
     font-style: normal;
@@ -175,15 +203,15 @@ nav {
     justify-content: center;
     align-items: center;
     border-radius: 20px;
-    background: var(--Primary-Blue, #3212C3);
+    background: var(--Primary-Black, #000000);
     color: var(--Secondary-White);
     text-decoration: none;
     font-weight: 500;
-    transition: background-color 300ms ease-in-out;
+    transition: background-color 150ms ease-in-out;
 }
 
 .btn:hover {
-    background: #502AFF;
+    background: #3a3a3a;
 }
 
 .project {
@@ -215,7 +243,7 @@ nav {
     max-width: 100%;
     height: auto;
     border-radius: 10px;
-    border: 2px solid var(--Primary-Blue);
+    border: 2px solid var(--Primary-Black);
 }
 
 .header-content {
@@ -235,7 +263,7 @@ nav {
 
 .name-container h1 {
     margin: 0;
-    color: var(--Primary-Blue, #3212C3);
+    color: var(--Primary-Black, #000000);
     font-family: 'Geist', sans-serif;
     font-size: 24px;
     font-style: normal;
@@ -249,7 +277,7 @@ nav {
 
 .description-container h2 {
     margin: 0;
-    color: var(--Primary-Blue, #3212C3);
+    color: var(--Primary-Black, #000000);
     font-family: 'Geist', sans-serif;
     font-size: 38px;
     font-style: normal;
@@ -270,9 +298,12 @@ nav {
 }
 
 .project-frame {
-    /* Add your existing project frame styles here */
-    flex: 1;
-    margin: 0 8px;
+    display: flex;
+    width: 100%;
+    max-width: 670px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
 }
 
 .project-header {
@@ -283,7 +314,7 @@ nav {
 }
 
 .project-header h3 {
-    color: var(--Primary-Blue, #3212C3);
+    color: var(--Primary-Black, #000000);
     font-family: 'Geist', sans-serif;
     font-size: 20px;
     font-style: normal;
@@ -308,17 +339,25 @@ nav {
 }
 
 .project-screenshot {
-    display: flex;
-    height: 447px;
-    justify-content: center;
-    align-items: center;
-    align-self: stretch;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.project-screenshot::before {
+    content: "";
+    display: block;
+    padding-top: 75%; /* 4:3 Aspect Ratio */
 }
 
 .project-screenshot img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 20px;
 }
 
@@ -345,7 +384,7 @@ nav {
 #description {
     margin: 0;
     padding: 0;
-    color: var(--Primary-Blue, #3212C3);
+    color: var(--Primary-Black, #000000);
     font-family: Geist, sans-serif; /* Fallback to sans-serif if Geist is not available */
     font-size: 38px;
     font-style: normal;
@@ -419,6 +458,46 @@ nav { animation-delay: 0.1s; }
     }
 }
 
+/* Responsive adjustments */
+@media (max-width: 1360px) {
+    .projects-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .project-frame {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-screenshot::before {
+        padding-top: 56.25%; /* 16:9 Aspect Ratio for smaller screens */
+    }
+
+    /* Ensure border-radius is maintained on small screens */
+    .project-screenshot,
+    .project-screenshot img {
+        border-radius: 20px;
+    }
+}
+
+/* Additional media query for very small screens */
+@media (max-width: 480px) {
+    .project-frame {
+        padding: 0;
+    }
+
+    .project-screenshot,
+    .project-screenshot img {
+        border-radius: 10px; /* Slightly smaller radius for very small screens */
+    }
+
+    .project-screenshot::before {
+        padding-top: 66.67%; /* 3:2 Aspect Ratio for very small screens */
+    }
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -445,7 +524,7 @@ body {
 }
 
 header {
-    margin-bottom: 60px;
+    margin-bottom: 80px;
 }
 
 nav {
@@ -465,7 +544,7 @@ nav {
     width: 670px;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 60px; /* This creates 60px space between description and projects */
+    margin-bottom: 80px; /* This creates 60px space between description and projects */
 }
 
 .profile-container h3 {
@@ -483,7 +562,7 @@ nav {
 #description {
     margin: 0;
     padding: 0;
-    color: var(--Primary-Blue, #3212C3);
+    color: var(--Primary-Black, #000000);
     font-family: Geist, sans-serif; /* Fallback to sans-serif if Geist is not available */
     font-size: 38px;
     font-style: normal;
@@ -516,7 +595,7 @@ nav {
 .project-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0px;
 }
 
 .project-screenshot img {
@@ -606,7 +685,7 @@ nav { animation-delay: 0.1s; }
     position: fixed;
     width: 20px;
     height: 20px;
-    background-color: rgba(50, 18, 195, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     border-radius: 50%;
     pointer-events: none;
     transition: transform 0.15s ease-out;
@@ -631,7 +710,7 @@ nav { animation-delay: 0.1s; }
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    background-color: var(--Primary-Blue);
+    background-color: var(--Primary-Black);
     border-radius: 50%; /* This makes it fully rounded */
 }
 
@@ -753,7 +832,7 @@ nav { animation-delay: 0.1s; }
     left: 20px;
     right: 20px;
     background-color: var(--Secondary-White);
-    border: 1px solid var(--Primary-Blue);
+    border: 1px solid var(--Primary-Black);
     border-radius: 10px;
     padding: 20px;
     z-index: 1000;
@@ -771,13 +850,13 @@ nav { animation-delay: 0.1s; }
     border: none;
     font-size: 18px;
     cursor: pointer;
-    color: var(--Primary-Blue);
+    color: var(--Primary-Black);
 }
 
 .dropdown-link {
     display: block;
     padding: 10px 0;
-    color: var(--Primary-Blue);
+    color: var(--Primary-Black);
     text-decoration: none;
     font-size: 16px;
     line-height: 150%;
