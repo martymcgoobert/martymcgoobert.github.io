@@ -145,6 +145,7 @@ nav {
     background-color: var(--Secondary-White);
     position: relative;
     overflow: hidden;
+    cursor: pointer; /* Add this to indicate it's clickable */
 }
 
 .logo img {

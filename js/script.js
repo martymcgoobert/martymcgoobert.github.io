@@ -23,9 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     console.log('Mouse follower script initialized');
-});
 
-document.addEventListener('DOMContentLoaded', function() {
+    // Existing code for mobile navigation
     const burgerMenu = document.querySelector('.burger-menu');
     const dropdown = document.querySelector('.mobile-nav-dropdown');
     const closeDropdown = document.querySelector('.close-dropdown');
@@ -44,23 +43,40 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleDropdown();
         }
     });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-    const mattGif = document.getElementById('mattGif');
-    let isPlaying = false;
-    const staticSrc = 'images/matt.png'; // Path to your static image
-    const animatedSrc = 'images/matt.gif'; // Path to your animated GIF
+    // New code for GIF toggle
+    function initGifToggle() {
+        const mattGif = document.getElementById('mattGif');
+        const logoContainer = document.querySelector('.logo'); // Select the logo container
+        let isPlaying = false;
+        const staticSrc = 'images/matt.png';
+        const animatedSrc = 'images/matt.gif';
 
-    mattGif.addEventListener('click', function() {
-        if (isPlaying) {
-            // Stop the animation and return to the static image
-            this.src = staticSrc;
-            isPlaying = false;
-        } else {
-            // Start the animation
-            this.src = animatedSrc;
-            isPlaying = true;
+        function toggleGif() {
+            if (isPlaying) {
+                mattGif.src = staticSrc;
+                isPlaying = false;
+            } else {
+                mattGif.src = animatedSrc;
+                isPlaying = true;
+            }
         }
-    });
+
+        if (mattGif && logoContainer) {
+            mattGif.addEventListener('click', toggleGif);
+            
+            // Add click event to the logo container
+            logoContainer.addEventListener('click', function(event) {
+                event.preventDefault();
+                toggleGif();
+            });
+            
+            console.log('GIF toggle initialized');
+        } else {
+            console.error('GIF or logo element not found');
+        }
+    }
+
+    // Initialize GIF toggle
+    initGifToggle();
 });
