@@ -878,3 +878,55 @@ nav { animation-delay: 0.1s; }
         display: none !important;
     }
 }
+
+.profile-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 60px; /* Adjust as needed */
+    position: relative; /* This allows absolute positioning of child elements */
+}
+
+.profile-container {
+    flex: 1;
+    max-width: 70%; /* Adjust as needed */
+}
+
+.matt-gif-container {
+    position: absolute;
+    right: 40px; /* This sets it 40px from the right margin */
+    top: 0;
+    width: 120px; /* Adjust size as needed */
+    height: 120px; /* Adjust size as needed */
+    overflow: hidden;
+    border-radius: 50%; /* Makes it circular */
+    cursor: pointer;
+}
+
+#mattGif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#mattGif.paused {
+    opacity: 1; /* Full opacity when paused */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-container {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .matt-gif-container {
+        position: static;
+        margin-top: 20px;
+    }
+}

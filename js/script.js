@@ -45,3 +45,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const mattGif = document.getElementById('mattGif');
+    let isPlaying = false;
+    const staticSrc = 'images/matt.png'; // Path to your static image
+    const animatedSrc = 'images/matt.gif'; // Path to your animated GIF
+
+    mattGif.addEventListener('click', function() {
+        if (isPlaying) {
+            // Stop the animation and return to the static image
+            this.src = staticSrc;
+            isPlaying = false;
+        } else {
+            // Start the animation
+            this.src = animatedSrc;
+            isPlaying = true;
+        }
+    });
+});
