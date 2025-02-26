@@ -1,0 +1,65 @@
+Project Overview
+
+This is a single-page responsive UX design portfolio with four key sections: Hero, Work, About Me, and Footer.
+The footer includes 3D interactive social icons (LinkedIn, X, Email) with subtle hover animations.
+
+Tech Stack
+
+React: The main framework for building the UI.
+TypeScript: For type safety and code clarity.
+Tailwind CSS: For rapid, responsive styling.
+Three.js / React Three Fiber: To integrate minimal 3D elements.
+HTML: As the base for the single-page application.
+
+File Structure
+
+/public
+  ├── index.html           // Main HTML file
+  ├── favicon.ico
+  └── fonts                // Custom font files (WOFF/WOFF2 for Geist font)
+
+/src
+  ├── assets               // Images, media, and Spline asset files if needed
+  ├── components
+  │     ├── Hero.tsx       // Hero section component
+  │     ├── Work.tsx       // Work/projects section component
+  │     ├── About.tsx      // About Me section component
+  │     ├── Footer.tsx     // Footer with interactive 3D social icons
+  │     ├── Navigation.tsx // Smooth scroll navigation component (optional)
+  │     └── ThreeDIcon.tsx // Reusable component to encapsulate minimal 3D interactive logic
+  ├── styles
+  │     ├── index.css      // Global styles (Tailwind directives, base styles)
+  │     └── fonts.css      // Font-face declarations for Geist font
+  ├── App.tsx              // Main app component composing all sections
+  └── main.tsx             // Entry point mounting App.tsx
+
+.gitignore                 // Excludes sensitive and build-related files (node_modules, build output, environment files, IDE artifacts)
+package.json               // Scripts, dependencies, and project info
+tsconfig.json              // TypeScript configuration
+vite.config.ts             // Build configuration for Vite
+README.md                  // Project documentation
+RULES.md                 // Project rules and guidelines
+
+Git & Security Practices
+
+.gitignore: Ensure that files such as node_modules, build output directories (e.g., /dist), environment variables, and IDE files are excluded.
+Version Control: Use Git with clear and descriptive commit messages. Utilize branches for organizing changes.
+Security: Avoid hardcoding sensitive information and follow modern security practices.
+
+Coding Conventions and Best Practices
+
+DRY (Don't Repeat Yourself): Reuse components and utility functions, and consolidate common logic.
+
+Modularization: Break down features into small, reusable, and maintainable pieces.
+Error Handling: Use proper error boundaries and try-catch blocks where needed.
+Performance: Optimize for load speed with lazy loading for heavier components (e.g., 3D icons).
+Responsive Design: Ensure all components work well on various screen sizes.
+Linting and Formatting: Use tools like ESLint and Prettier to enforce code style and quality.
+Interactive and 3D Elements
+3D Footer Icons: Create reusable 3D components for the social icons (LinkedIn, X, Email) using Three.js or React Three Fiber.
+Animations: Use GSAP for subtle animations (e.g., a slight spin on hover) within the 3D components.
+Microinteractions: Enhance user experience with smooth, performance-optimized animations.
+Documentation
+Maintain up-to-date documentation within the README.md for setup and deployment.
+Document code where necessary but keep it concise and focused on the non-obvious parts.
+
