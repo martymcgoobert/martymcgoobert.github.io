@@ -1,11 +1,11 @@
+/* Instrument Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
 /* Geist font-face declarations will go here */
 @font-face {
   font-family: 'Geist';
   /* Font files will need to be added to public/fonts directory */
 }
-
-/* Instrument Sans font */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
 
 /* Fallback system fonts */
 :root {
