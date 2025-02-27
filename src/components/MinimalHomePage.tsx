@@ -10,6 +10,7 @@ const MinimalHomePage = () => {
   const [scrollY, setScrollY] = useState(0);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [darkMode, setDarkMode] = useState(false);
+  const [hoverImage, setHoverImage] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -32,6 +33,13 @@ const MinimalHomePage = () => {
     const checkMobile = () => {
       const isMobileView = window.innerWidth <= 768;
       setIsMobile(isMobileView);
+      
+      // Set default hero image on mobile
+      if (isMobileView) {
+        setHoverImage(meeePhoto);
+      } else {
+        setHoverImage(null);
+      }
     };
     
     checkMobile();
@@ -178,16 +186,33 @@ const MinimalHomePage = () => {
         }}
       >
         <div className="hero-content">
-          <div className="hover-image-container">
-            <img 
-              src={meeePhoto} 
-              alt="Profile" 
-              className="hover-image"
-            />
-          </div>
+          {(hoverImage || isMobile) && (
+            <div className="hover-image-container">
+              <img 
+                src={isMobile ? meeePhoto : hoverImage} 
+                alt="Hover detail" 
+                className="hover-image"
+              />
+            </div>
+          )}
           <div className="hero-text-container">
             <h1 className="hero-title-small">
-              Hey, I'm <span className="font-bold">Matt*</span>. A UX designer based in <span className="font-bold">Ontario, Canada*</span>. <span className="font-bold">Currently seeking a role in UX*</span> or Product Design.
+              Hey, I'm <span 
+                className={`hover-trigger ${!isMobile ? 'font-bold' : ''}`}
+                onMouseEnter={() => !isMobile && setHoverImage(meeePhoto)}
+                onMouseLeave={() => !isMobile && setHoverImage(null)}
+                onClick={() => isMobile && setHoverImage(meeePhoto)}
+              >Matt*</span>. A UX designer based in <span 
+                className={`hover-trigger ${!isMobile ? 'font-bold' : ''}`}
+                onMouseEnter={() => !isMobile && setHoverImage(ontarioPhoto)}
+                onMouseLeave={() => !isMobile && setHoverImage(null)}
+                onClick={() => isMobile && setHoverImage(ontarioPhoto)}
+              >Ontario, Canada*</span>. <span 
+                className={`hover-trigger ${!isMobile ? 'font-bold' : ''}`}
+                onMouseEnter={() => !isMobile && setHoverImage(openPhoto)}
+                onMouseLeave={() => !isMobile && setHoverImage(null)}
+                onClick={() => isMobile && setHoverImage(openPhoto)}
+              >Currently seeking a role in UX*</span> or Product Design.
             </h1>
           </div>
         </div>
