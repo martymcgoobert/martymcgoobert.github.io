@@ -3,7 +3,7 @@ import '../styles/minimal.css';
 import orbitImage from '../assets/orbit.png';
 import meeePhoto from '../assets/meee.png';
 import ontarioPhoto from '../assets/ontario.jpg';
-import macPhoto from '../assets/mac.jpg';
+import openPhoto from '../assets/open.jpg';
 import mattPhoto from '../assets/matt.png';
 
 const MinimalHomePage = () => {
@@ -11,6 +11,8 @@ const MinimalHomePage = () => {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [darkMode, setDarkMode] = useState(false);
   const [hoverImage, setHoverImage] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const workRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
@@ -26,6 +28,21 @@ const MinimalHomePage = () => {
         heroElement.style.transition = 'opacity 1.2s ease-in-out';
       }, 300);
     }
+    
+    // Check if on mobile device
+    const checkMobile = () => {
+      const isMobileView = window.innerWidth <= 768;
+      setIsMobile(isMobileView);
+      
+      // Set default hero image on mobile
+      if (isMobileView) {
+        setHoverImage(meeePhoto);
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
   useEffect(() => {
@@ -121,16 +138,41 @@ const MinimalHomePage = () => {
       <div className="noise"></div>
       
       {/* Header/Navigation */}
-      <header className="header">
+      <header 
+        className={`header ${scrollY > 100 ? 'scrolled' : ''} ${isMobile && mobileMenuOpen ? 'mobile-menu-open' : ''}`}
+      >
         <div className="header-left" onClick={scrollToTop}>Matt J. Mitchell</div>
         <div className="header-right">
-          <a href="#work" className="nav-link">Work</a>
-          <a href="#about" className="nav-link">About</a>
-          <a href="mailto:mattjmitchellux@gmail.com" className="nav-link">Contact</a>
-          <button onClick={toggleDarkMode} className="theme-toggle" aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
-            {darkMode ? '☀️' : '🌙'}
-          </button>
+          {isMobile ? (
+            <button 
+              className="mobile-menu-toggle" 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          ) : (
+            <>
+              <a href="#work" className="nav-link">Work</a>
+              <a href="#about" className="nav-link">About</a>
+              <a href="mailto:mattjmitchellux@gmail.com" className="nav-link">Contact</a>
+              <button onClick={toggleDarkMode} className="theme-toggle" aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
+                {darkMode ? '☀️' : '🌙'}
+              </button>
+            </>
+          )}
         </div>
+        {isMobile && (
+          <div className="mobile-menu">
+            <a href="#work" className="nav-link">Work</a>
+            <a href="#about" className="nav-link">About</a>
+            <a href="mailto:mattjmitchellux@gmail.com" className="nav-link">Contact</a>
+            <button onClick={toggleDarkMode} className="theme-toggle mobile-theme-toggle" aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
+              {darkMode ? '☀️' : '🌙'}
+            </button>
+          </div>
+        )}
       </header>
       
       {/* Hero */}
@@ -142,10 +184,10 @@ const MinimalHomePage = () => {
         }}
       >
         <div className="hero-content">
-          {hoverImage && (
+          {(hoverImage || isMobile) && (
             <div className="hover-image-container">
               <img 
-                src={hoverImage} 
+                src={isMobile ? meeePhoto : hoverImage} 
                 alt="Hover detail" 
                 className="hover-image"
               />
@@ -154,17 +196,20 @@ const MinimalHomePage = () => {
           <div className="hero-text-container">
             <h1 className="hero-title-small">
               Hey, I'm <span 
-                className="hover-trigger font-bold"
-                onMouseEnter={() => setHoverImage(meeePhoto)}
-                onMouseLeave={() => setHoverImage(null)}
+                className={`hover-trigger ${!isMobile ? 'font-bold' : ''}`}
+                onMouseEnter={() => !isMobile && setHoverImage(meeePhoto)}
+                onMouseLeave={() => !isMobile && setHoverImage(null)}
+                onClick={() => isMobile && setHoverImage(meeePhoto)}
               >Matt*</span>. A junior UX designer based in <span 
-                className="hover-trigger font-bold"
-                onMouseEnter={() => setHoverImage(ontarioPhoto)}
-                onMouseLeave={() => setHoverImage(null)}
+                className={`hover-trigger ${!isMobile ? 'font-bold' : ''}`}
+                onMouseEnter={() => !isMobile && setHoverImage(ontarioPhoto)}
+                onMouseLeave={() => !isMobile && setHoverImage(null)}
+                onClick={() => isMobile && setHoverImage(ontarioPhoto)}
               >Ontario, Canada*</span>. <span 
-                className="hover-trigger font-bold"
-                onMouseEnter={() => setHoverImage(macPhoto)}
-                onMouseLeave={() => setHoverImage(null)}
+                className={`hover-trigger ${!isMobile ? 'font-bold' : ''}`}
+                onMouseEnter={() => !isMobile && setHoverImage(openPhoto)}
+                onMouseLeave={() => !isMobile && setHoverImage(null)}
+                onClick={() => isMobile && setHoverImage(openPhoto)}
               >Currently seeking a role in UX*</span> or Product Design.
             </h1>
           </div>
@@ -248,32 +293,43 @@ const MinimalHomePage = () => {
         </div>
         
         <div className="about-content">
-          <div className="about-text">
-            <p>The real me? A down-to-earth, chill vibes Canadian with a passion and history for loving all things creative. The designer me? Someone that wants to know everything all at once, and how to do it best. Whether its crafting an intuitive user experience or building a fun brand, I am open to it all.</p>
+          <div className="about-left-column">
+            <div className="about-text">
+              <p className="about-paragraph">The real me? A down-to-earth, chill vibes Canadian with a passion and history for loving all things creative.</p>
+              <p className="about-paragraph">The designer me? Someone that wants to know everything all at once, and how to do it best. Whether its crafting an intuitive user experience or building a fun brand, I am open to it all.</p>
+            </div>
+            <div className="about-image">
+              <img src={mattPhoto} alt="Matt J. Mitchell" />
+            </div>
           </div>
-          <div className="about-image">
-            <img src={mattPhoto} alt="Matt J. Mitchell" />
-          </div>
-          <div className="skill-list">
-            <div className="skill-category">
-              <h3>Skills</h3>
-              <ul>
-                <li><span className="skill-highlight">UI Design</span></li>
-                <li><span className="skill-highlight">Wireframing</span></li>
-                <li><span className="skill-highlight">User Research</span></li>
-                <li><span className="skill-highlight">Prototyping</span></li>
-                <li><span className="skill-highlight">AI Tools</span></li>
-              </ul>
+          
+          <div className="about-right-column">
+            <div className="skill-list">
+              <div className="skill-category">
+                <h3 className="skill-heading">Skills</h3>
+                <ul>
+                  <li><span className="skill-highlight">UI Design</span></li>
+                  <li><span className="skill-highlight">Wireframing</span></li>
+                  <li><span className="skill-highlight">User Research</span></li>
+                  <li><span className="skill-highlight">Prototyping</span></li>
+                  <li><span className="skill-highlight">AI Tools</span></li>
+                </ul>
+              </div>
+              
+              <div className="skill-category">
+                <h3 className="skill-heading">Tools</h3>
+                <ul>
+                  <li><span className="skill-highlight">Figma</span></li>
+                  <li><span className="skill-highlight">Framer</span></li>
+                  <li><span className="skill-highlight">Aseprite</span></li>
+                  <li><span className="skill-highlight">Spline</span></li>
+                </ul>
+              </div>
             </div>
             
-            <div className="skill-category">
-              <h3>Tools</h3>
-              <ul>
-                <li><span className="skill-highlight">Figma</span></li>
-                <li><span className="skill-highlight">Framer</span></li>
-                <li><span className="skill-highlight">Aseprite</span></li>
-                <li><span className="skill-highlight">Spline</span></li>
-              </ul>
+            <div className="cta-container desktop-only">
+              <p>Interested in working together?</p>
+              <a href="mailto:mattjmitchellux@gmail.com" className="cta-link">Get in touch</a>
             </div>
           </div>
         </div>
