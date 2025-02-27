@@ -4,6 +4,7 @@ import orbitImage from '../assets/orbit.png';
 import meeePhoto from '../assets/meee.png';
 import ontarioPhoto from '../assets/ontario.jpg';
 import macPhoto from '../assets/mac.jpg';
+import mattPhoto from '../assets/matt.png';
 
 const MinimalHomePage = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -179,7 +180,7 @@ const MinimalHomePage = () => {
           opacity: calculateOpacity(workRef, 'work')
         }}
       >
-        <div className="section-title dither">
+        <div className="section-title">
           <h2>Selected Work</h2>
         </div>
         
@@ -192,7 +193,10 @@ const MinimalHomePage = () => {
             </div>
             <div className="project-fullwidth-row">
               <div className="project-fullwidth-content">
-                <h3 className="project-title">{projects[0].title}</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <h3 className="project-title">{projects[0].title}</h3>
+                  <div className="live-indicator"></div>
+                </div>
                 <span className="project-category">{projects[0].category}</span>
                 <div className="project-meta">
                   <span className="project-role">Role: {projects[0].role}</span>
@@ -200,8 +204,8 @@ const MinimalHomePage = () => {
                 </div>
                 <p className="project-description">{projects[0].description}</p>
               </div>
-              <div className="project-fullwidth-image dither">
-                <div className="image-placeholder">ATG Direct Website Redesign</div>
+              <div className="project-fullwidth-image">
+                <div className="image-placeholder">ATG Direct Website Redesign <br/>(Work in Progress)</div>
               </div>
             </div>
           </div>
@@ -247,7 +251,9 @@ const MinimalHomePage = () => {
           <div className="about-text">
             <p>The real me? A down-to-earth, chill vibes Canadian with a passion and history for loving all things creative. The designer me? Someone that wants to know everything all at once, and how to do it best. Whether its crafting an intuitive user experience or building a fun brand, I am open to it all.</p>
           </div>
-          
+          <div className="about-image">
+            <img src={mattPhoto} alt="Matt J. Mitchell" />
+          </div>
           <div className="skill-list">
             <div className="skill-category">
               <h3>Skills</h3>
@@ -281,7 +287,7 @@ const MinimalHomePage = () => {
           </div>
           <div className="footer-right">
             <a href="https://www.linkedin.com/in/matthew-mitchell-955703a2/" target="_blank" rel="noopener noreferrer" className="social-link">LinkedIn</a>
-            <a href="https://x.com/mattjmitchellUX" target="_blank" rel="noopener noreferrer" className="social-link">Twitter</a>
+            <a href="https://x.com/mattmitchellUX" target="_blank" rel="noopener noreferrer" className="social-link">Twitter</a>
             <a href="mailto:mattjmitchellux@gmail.com" className="social-link">Email</a>
           </div>
         </div>

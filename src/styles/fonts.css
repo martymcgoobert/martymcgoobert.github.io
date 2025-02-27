@@ -3,3 +3,12 @@
   font-family: 'Geist';
   /* Font files will need to be added to public/fonts directory */
 }
+
+/* Instrument Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+/* Fallback system fonts */
+:root {
+  --system-fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --main-font: 'Instrument Sans', var(--system-fonts);
+}
