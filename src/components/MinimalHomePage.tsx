@@ -1,105 +1,103 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { setupLazyVideoLoading } from '../utils/lazyLoadVideo';
+import { setupLazyImageLoading } from '../utils/lazyLoadImage';
 import '../styles/minimal.css';
-import orbitImage from '../assets/orbit.png';
-import meeePhoto from '../assets/meee.png';
-import ontarioPhoto from '../assets/ontario.jpg';
-import openPhoto from '../assets/open.jpg';
-import mattPhoto from '../assets/matt.png';
 
-const MinimalHomePage = () => {
+// Import images and media
+import mattPhoto from '../assets/matt.png';
+import heroImage from '../assets/heroimage.png';
+import mobileUI from '../assets/mobileui.png';
+import appIcon from '../assets/appicon.png';
+import zenithVideo from '../assets/zenith-demo.mp4';
+import zenithVideoWEBM from '../assets/zenith-demo.webm';
+
+// Import types
+import { Project } from '../types/project';
+
+// Import modular components
+import Header from './layout/Header';
+import Footer from './layout/Footer';
+import HeroSection from './sections/HeroSection';
+import WorkSection from './sections/WorkSection';
+import AboutSection from './sections/AboutSection';
+
+const MinimalHomePage: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
-  const [darkMode, setDarkMode] = useState(false);
   const [hoverImage, setHoverImage] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Refs for sections
   const heroRef = useRef<HTMLDivElement>(null);
   const workRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
-  
-  // Initial fade in effect for hero section
-  useEffect(() => {
-    const heroElement = heroRef.current;
-    if (heroElement) {
-      heroElement.style.opacity = '0';
-      
-      setTimeout(() => {
-        heroElement.style.opacity = '1';
-        heroElement.style.transition = 'opacity 1.2s ease-in-out';
-      }, 300);
-    }
-    
-    // Check if on mobile device
-    const checkMobile = () => {
-      const isMobileView = window.innerWidth <= 768;
-      setIsMobile(isMobileView);
-      
-      // Set default hero image on mobile
-      if (isMobileView) {
-        setHoverImage(meeePhoto);
-      } else {
-        setHoverImage(null);
-      }
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
-      
-      // Check which sections are visible
-      const sections = [
-        { ref: workRef, id: 'work' },
-        { ref: aboutRef, id: 'about' }
-      ];
-      
-      sections.forEach(({ ref, id }) => {
-        if (ref.current) {
-          const rect = ref.current.getBoundingClientRect();
-          if (rect.top < window.innerHeight * 0.7) {
-            setVisibleSections(prev => new Set(prev).add(id));
-          }
-        }
-      });
+      checkVisibleSections();
     };
-    
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+
+    // Setup lazy loading for videos and images
+    setupLazyVideoLoading();
+    setupLazyImageLoading();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
-  
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.body.classList.toggle('dark-mode');
+
+  const checkVisibleSections = () => {
+    const sections = [
+      { ref: workRef, id: 'work' },
+      { ref: aboutRef, id: 'about' }
+    ];
+
+    sections.forEach(({ ref, id }) => {
+      if (ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.7) {
+          setVisibleSections(prev => new Set(prev).add(id));
+        }
+      }
+    });
   };
-  
+
+  // Scroll to top
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
-  
+
+
+
   // Calculate opacity for sections - only fade in, never fade out once visible
   const calculateOpacity = (ref: React.RefObject<HTMLDivElement>, sectionId: string) => {
     if (!ref.current) return 1;
-    
+
     // If section has been seen, keep it visible
     if (visibleSections.has(sectionId)) return 1;
-    
+
     const rect = ref.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
-    
+
     // Start fading in when element is 30% visible from bottom
     const fadeInStart = windowHeight - rect.height * 0.3;
-    
+
     // Fully visible when element is 50% visible
     const fullyVisible = windowHeight - rect.height * 0.5;
-    
+
     if (rect.top >= fadeInStart) {
       // Element is below viewport or just starting to enter
       return 0;
@@ -111,17 +109,22 @@ const MinimalHomePage = () => {
       return 1;
     }
   };
-  
+
   // Projects data
-  const projects = [
+  const projects: Project[] = [
     {
       id: '01',
-      title: 'ATG Direct',
-      category: 'Manufacturing Website Redesign',
+      title: 'Zenith',
+      category: 'AI',
       year: '2025',
       role: 'UX & UI Designer',
-      tools: 'Figma, Framer',
-      description: 'Revamped website for a manufacturer of hot melt polyamide chemical adhesives, implementing a modern approach to their digital presence.'
+      tools: 'Figma',
+      description: 'A self-directed personal project exploring the intersection of AI and UX design.',
+      media: {
+        mp4: zenithVideo,
+        webm: zenithVideoWEBM
+      },
+      mediaType: 'video'
     },
     {
       id: '02',
@@ -131,225 +134,69 @@ const MinimalHomePage = () => {
       role: 'UX & UI Designer',
       tools: 'Figma',
       description: 'A self-directed personal project combining traditional banking with cryptocurrency features in a mobile application.',
-      image: orbitImage
+      image: mobileUI
+    },
+    {
+      id: '03',
+      title: 'Cloud App',
+      category: 'Weather App',
+      year: '2024',
+      role: 'UX & UI Designer',
+      tools: 'Figma',
+      description: 'A minimalist weather application with clean interface.',
+      image: appIcon
     }
   ];
-  
+
+  // Hero section images
+  const heroImages = {
+    profile: mattPhoto,
+    hero: heroImage
+  };
+
   return (
-    <div className={`minimal ${darkMode ? 'dark-mode' : ''}`}>
-      <div className="noise"></div>
-      
+    <div className="minimal" style={{ display: 'flex', flexDirection: 'column' }}>
+
       {/* Header/Navigation */}
-      <header 
-        className={`header ${scrollY > 100 ? 'scrolled' : ''} ${isMobile && mobileMenuOpen ? 'mobile-menu-open' : ''}`}
-      >
-        <div className="header-left" onClick={scrollToTop}>Matt J. Mitchell</div>
-        <div className="header-right">
-          {isMobile ? (
-            <button 
-              className="mobile-menu-toggle" 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          ) : (
-            <>
-              <a href="#work" className="nav-link">Work</a>
-              <a href="#about" className="nav-link">About</a>
-              <a href="mailto:mattjmitchellux@gmail.com" className="nav-link">Contact</a>
-              <button onClick={toggleDarkMode} className="theme-toggle" aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
-                {darkMode ? '☀️' : '🌙'}
-              </button>
-            </>
-          )}
-        </div>
-        {isMobile && (
-          <div className="mobile-menu">
-            <a href="#work" className="nav-link">Work</a>
-            <a href="#about" className="nav-link">About</a>
-            <a href="mailto:mattjmitchellux@gmail.com" className="nav-link">Contact</a>
-            <button onClick={toggleDarkMode} className="theme-toggle mobile-theme-toggle" aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
-              {darkMode ? '☀️' : '🌙'}
-            </button>
-          </div>
-        )}
-      </header>
-      
-      {/* Hero */}
-      <section 
-        ref={heroRef}
-        className="hero hero-fade-in"
-        style={{ 
-          opacity: 1 - (scrollY * 0.002)
-        }}
-      >
-        <div className="hero-content">
-          {(hoverImage || isMobile) && (
-            <div className="hover-image-container">
-              <img 
-                src={isMobile ? meeePhoto : hoverImage} 
-                alt="Hover detail" 
-                className="hover-image"
-              />
-            </div>
-          )}
-          <div className="hero-text-container">
-            <h1 className="hero-title-small">
-              Hey, I'm <span 
-                className={`hover-trigger ${!isMobile ? 'font-bold' : ''}`}
-                onMouseEnter={() => !isMobile && setHoverImage(meeePhoto)}
-                onMouseLeave={() => !isMobile && setHoverImage(null)}
-                onClick={() => isMobile && setHoverImage(meeePhoto)}
-              >Matt*</span>. A UX designer based in <span 
-                className={`hover-trigger ${!isMobile ? 'font-bold' : ''}`}
-                onMouseEnter={() => !isMobile && setHoverImage(ontarioPhoto)}
-                onMouseLeave={() => !isMobile && setHoverImage(null)}
-                onClick={() => isMobile && setHoverImage(ontarioPhoto)}
-              >Ontario, Canada*</span>. <span 
-                className={`hover-trigger ${!isMobile ? 'font-bold' : ''}`}
-                onMouseEnter={() => !isMobile && setHoverImage(openPhoto)}
-                onMouseLeave={() => !isMobile && setHoverImage(null)}
-                onClick={() => isMobile && setHoverImage(openPhoto)}
-              >Currently seeking a role in UX*</span> or Product Design.
-            </h1>
-          </div>
-        </div>
-      </section>
-      
-      {/* Work */}
-      <section 
-        ref={workRef} 
-        id="work" 
-        className="work"
-        style={{
-          opacity: calculateOpacity(workRef, 'work')
-        }}
-      >
-        <div className="section-title">
-          <h2>Selected Work</h2>
-        </div>
-        
-        <div className="projects-fullwidth">
-          {/* First project - ATG Direct (newest) */}
-          <div className="project-fullwidth">
-            <div className="project-fullwidth-header">
-              <span className="project-id">{projects[0].id}</span>
-              <span className="project-year">{projects[0].year}</span>
-            </div>
-            <div className="project-fullwidth-row">
-              <div className="project-fullwidth-content">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <h3 className="project-title">{projects[0].title}</h3>
-                  <div className="live-indicator"></div>
-                </div>
-                <span className="project-category">{projects[0].category}</span>
-                <div className="project-meta">
-                  <span className="project-role">Role: {projects[0].role}</span>
-                  <span className="project-tools">Tools: {projects[0].tools}</span>
-                </div>
-                <p className="project-description">{projects[0].description}</p>
-              </div>
-              <div className="project-fullwidth-image">
-                <div className="image-placeholder">ATG Direct Website Redesign <br/>(Work in Progress)</div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Second project - Orbit */}
-          <div className="project-fullwidth">
-            <div className="project-fullwidth-header">
-              <span className="project-id">{projects[1].id}</span>
-              <span className="project-year">{projects[1].year}</span>
-            </div>
-            <div className="project-fullwidth-row">
-              <div className="project-fullwidth-content">
-                <h3 className="project-title">{projects[1].title}</h3>
-                <span className="project-category">{projects[1].category}</span>
-                <div className="project-meta">
-                  <span className="project-role">Role: {projects[1].role}</span>
-                  <span className="project-tools">Tools: {projects[1].tools}</span>
-                </div>
-                <p className="project-description">{projects[1].description}</p>
-              </div>
-              <div className="project-fullwidth-image">
-                <img src={projects[1].image} alt={projects[1].title} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* About */}
-      <section 
-        ref={aboutRef} 
-        id="about" 
-        className="about"
-        style={{
-          opacity: calculateOpacity(aboutRef, 'about')
-        }}
-      >
-        <div className="section-title">
-          <h2>About</h2>
-        </div>
-        
-        <div className="about-content">
-          <div className="about-left-column">
-            <div className="about-text">
-              <p className="about-paragraph">The real me? A down-to-earth, chill vibes Canadian with a passion and history for loving all things creative.</p>
-              <p className="about-paragraph">The designer me? Someone that wants to know everything all at once, and how to do it best. Whether its crafting an intuitive user experience or building a fun brand, I am open to it all.</p>
-            </div>
-            <div className="about-image">
-              <img src={mattPhoto} alt="Matt J. Mitchell" />
-            </div>
-          </div>
-          
-          <div className="about-right-column">
-            <div className="skill-list">
-              <div className="skill-category">
-                <h3 className="skill-heading">Skills</h3>
-                <ul>
-                  <li><span className="skill-highlight">UI Design</span></li>
-                  <li><span className="skill-highlight">Wireframing</span></li>
-                  <li><span className="skill-highlight">User Research</span></li>
-                  <li><span className="skill-highlight">Prototyping</span></li>
-                  <li><span className="skill-highlight">AI Tools</span></li>
-                </ul>
-              </div>
-              
-              <div className="skill-category">
-                <h3 className="skill-heading">Tools</h3>
-                <ul>
-                  <li><span className="skill-highlight">Figma</span></li>
-                  <li><span className="skill-highlight">Framer</span></li>
-                  <li><span className="skill-highlight">Aseprite</span></li>
-                  <li><span className="skill-highlight">Spline</span></li>
-                </ul>
-              </div>
-            </div>
-            
-            <div className="cta-container desktop-only">
-              <p>Interested in working together?</p>
-              <a href="mailto:mattjmitchellux@gmail.com" className="cta-link">Get in touch</a>
-            </div>
-          </div>
-        </div>
-      </section>
-      
+      <Header
+        scrollY={scrollY}
+        isMobile={isMobile}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+        scrollToTop={scrollToTop}
+      />
+
+      {/* Main Content Container */}
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+        {/* Hero */}
+        <HeroSection
+          scrollY={scrollY}
+          heroRef={heroRef}
+          hoverImage={hoverImage}
+          isMobile={isMobile}
+          setHoverImage={setHoverImage}
+          images={heroImages}
+        />
+
+        {/* Work */}
+        <WorkSection
+          workRef={workRef}
+          projects={projects}
+          calculateOpacity={calculateOpacity}
+          isMobile={isMobile}
+        />
+
+        {/* About */}
+        <AboutSection
+          aboutRef={aboutRef}
+          calculateOpacity={calculateOpacity}
+          profileImage={mattPhoto}
+          isMobile={isMobile}
+        />
+      </div>
+
       {/* Footer */}
-      <footer className="footer">
-        <div className="footer-content">
-          <div className="footer-left">
-            <p>&copy; {new Date().getFullYear()} Matt J. Mitchell</p>
-          </div>
-          <div className="footer-right">
-            <a href="https://www.linkedin.com/in/matthew-mitchell-955703a2/" target="_blank" rel="noopener noreferrer" className="social-link">LinkedIn</a>
-            <a href="https://x.com/mattmitchellUX" target="_blank" rel="noopener noreferrer" className="social-link">Twitter</a>
-            <a href="mailto:mattjmitchellux@gmail.com" className="social-link">Email</a>
-          </div>
-        </div>
-      </footer>
+      <Footer isMobile={isMobile} />
     </div>
   );
 };

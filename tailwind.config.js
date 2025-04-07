@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'geist': ['Geist', 'sans-serif'],
+        'space-grotesk': ['Space Grotesk', 'sans-serif'],
       },
       screens: {
         'sm': '375px',
