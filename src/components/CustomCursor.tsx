@@ -5,18 +5,33 @@ const CustomCursor = () => {
   const [isPointer, setIsPointer] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Don't render the custom cursor on mobile devices
+  if (isMobile) return null;
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return; // Don't add mouse events on mobile
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
-      
+
       // Check if the cursor is over a clickable element
       const target = e.target as HTMLElement;
       const clickableElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA'];
-      setIsPointer(clickableElements.includes(target.tagName) || 
+      setIsPointer(clickableElements.includes(target.tagName) ||
                    window.getComputedStyle(target).cursor === 'pointer');
     };
-    
+
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
     const handleMouseLeave = () => setIsHidden(true);
@@ -29,26 +44,28 @@ const CustomCursor = () => {
     document.documentElement.addEventListener('mouseenter', handleMouseEnter);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
-      document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
-      document.documentElement.removeEventListener('mouseenter', handleMouseEnter);
+      if (!isMobile) {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mousedown', handleMouseDown);
+        window.removeEventListener('mouseup', handleMouseUp);
+        document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
+        document.documentElement.removeEventListener('mouseenter', handleMouseEnter);
+      }
     };
   }, []);
 
   // Keep the default cursor for better usability, but still show our custom cursor
   useEffect(() => {
     document.body.style.cursor = 'auto';
-    
+
     const links = document.querySelectorAll('a, button, input, select, textarea');
     links.forEach(link => {
       (link as HTMLElement).style.cursor = 'pointer';
     });
-    
+
     return () => {
       document.body.style.cursor = 'auto';
-      
+
       const links = document.querySelectorAll('a, button, input, select, textarea');
       links.forEach(link => {
         (link as HTMLElement).style.cursor = 'auto';

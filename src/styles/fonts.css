@@ -20,3 +20,12 @@
   --newspaper-font: 'Chomsky', serif;
   --accent-color: #00581C40;
 }
+
+/* Font classes */
+.font-chivo {
+  font-family: 'Chivo Mono', monospace;
+}
+
+.font-chomsky {
+  font-family: 'Chomsky', serif;
+}

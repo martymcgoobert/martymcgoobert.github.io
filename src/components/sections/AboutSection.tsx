@@ -33,29 +33,32 @@ const AboutSection: React.FC<AboutSectionProps> = ({
         position: 'relative'
       }}
     >
-      <div style={{
+      <div className="container-max" style={{
         display: 'flex',
         justifyContent: 'center',
-        gap: '20px',
+        gap: isMobile ? '16px' : '20px',
         maxWidth: '1440px',
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: isMobile ? '0 16px' : '0 20px',
+        flexWrap: 'wrap'
       }}>
         {/* About Column */}
-        <div style={{
-          width: 420,
-          height: 507,
+        <div className="fade-in-left" style={{
+          width: isMobile ? '100%' : 420,
+          height: isMobile ? 'auto' : 507,
+          minHeight: isMobile ? 350 : 507,
           border: '1px solid #D9D9D9',
-          padding: '16px',
+          padding: isMobile ? '12px' : '16px',
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
-
+          marginBottom: isMobile ? '20px' : 0
         }}>
           <div className="newspaper-title" style={{
-            fontSize: 72,
+            fontSize: isMobile ? 48 : 72,
             fontWeight: 400,
-            lineHeight: '80px'
+            lineHeight: isMobile ? '56px' : '80px'
           }}>About</div>
 
           <div className="monospace-text" style={{
@@ -73,11 +76,13 @@ const AboutSection: React.FC<AboutSectionProps> = ({
         </div>
 
         {/* Profile Image */}
-        <div style={{
-          width: 420,
-          height: 509,
+        <div className="fade-in-scale" style={{
+          width: isMobile ? '100%' : 420,
+          height: isMobile ? 'auto' : 509,
+          minHeight: isMobile ? 350 : 509,
           background: '#D9D9D9',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          marginBottom: isMobile ? '20px' : 0
         }}>
           <img
             style={{
@@ -92,20 +97,21 @@ const AboutSection: React.FC<AboutSectionProps> = ({
         </div>
 
         {/* Skills Column */}
-        <div style={{
-          width: 420,
-          height: 509,
+        <div className="fade-in-right" style={{
+          width: isMobile ? '100%' : 420,
+          height: isMobile ? 'auto' : 509,
+          minHeight: isMobile ? 350 : 509,
           border: '1px solid #D9D9D9',
-          padding: '16px',
+          padding: isMobile ? '12px' : '16px',
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
           overflow: 'auto'
         }}>
           <div className="newspaper-title" style={{
-            fontSize: 72,
+            fontSize: isMobile ? 48 : 72,
             fontWeight: 400,
-            lineHeight: '80px',
+            lineHeight: isMobile ? '56px' : '80px',
             textAlign: 'left'
           }}>Skills</div>
 

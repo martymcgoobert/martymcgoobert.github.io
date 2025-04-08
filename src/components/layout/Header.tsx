@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface HeaderProps {
   scrollY: number;
@@ -15,6 +15,28 @@ const Header: React.FC<HeaderProps> = ({
   setMobileMenuOpen,
   scrollToTop
 }) => {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const burgerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (mobileMenuOpen &&
+          menuRef.current &&
+          !menuRef.current.contains(event.target as Node) &&
+          burgerRef.current &&
+          !burgerRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [mobileMenuOpen, setMobileMenuOpen]);
   return (
     <header
       className={`header ${scrollY > 100 ? 'scrolled' : ''} ${isMobile && mobileMenuOpen ? 'mobile-menu-open' : ''}`}
@@ -37,13 +59,14 @@ const Header: React.FC<HeaderProps> = ({
         padding: 0
       }}
     >
-      <div style={{
+      <div className="container-max" style={{
         width: '100%',
         maxWidth: 1440,
-        height: '80px',
+        height: isMobile ? '70px' : '80px',
         justifyContent: 'space-between',
         alignItems: 'center',
-        display: 'flex'
+        display: 'flex',
+        padding: isMobile ? '0 16px' : '0 20px'
       }}>
         <div
           onClick={scrollToTop}
@@ -56,32 +79,59 @@ const Header: React.FC<HeaderProps> = ({
         >
           <div className="newspaper-title" style={{
             color: 'black',
-            fontSize: 24,
+            fontSize: isMobile ? 20 : 24,
             fontWeight: 400,
-            lineHeight: '28px',
-            height: '28px'
+            lineHeight: isMobile ? '24px' : '28px',
+            height: isMobile ? '24px' : '28px'
           }}>
             Matt Mitchell
           </div>
         </div>
 
         {isMobile ? (
-          <button
-            className="mobile-menu-toggle"
+          <div
+            ref={burgerRef}
+            className="burger-menu"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle mobile menu"
             aria-expanded={mobileMenuOpen}
             style={{
-              background: 'none',
-              border: 'none',
-              padding: 10,
-              cursor: 'pointer'
+              padding: 14,
+              position: 'relative',
+              zIndex: 1001,
+              cursor: 'pointer',
+              width: '16px',
+              height: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'transparent',
+              borderRadius: '4px',
+              boxSizing: 'content-box'
             }}
           >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+            <div style={{
+              width: '100%',
+              height: '3px',
+              backgroundColor: 'black',
+              borderRadius: '2px'
+            }} />
+            <div style={{
+              width: '100%',
+              height: '3px',
+              backgroundColor: 'black',
+              marginTop: '5px',
+              marginBottom: '5px',
+              borderRadius: '2px'
+            }} />
+            <div style={{
+              width: '100%',
+              height: '3px',
+              backgroundColor: 'black',
+              borderRadius: '2px'
+            }} />
+          </div>
         ) : (
           <div style={{
             alignSelf: 'stretch',
@@ -120,64 +170,70 @@ const Header: React.FC<HeaderProps> = ({
                 textDecoration: 'none'
               }}>About</a>
             </div>
-            <a href="#talk" style={{
+            <a href="#talk"
+            className="btn-primary lets-talk-button"
+            style={{
               height: 44,
-              padding: '4px 40px',
-              background: 'rgba(0, 88, 28, 0.25)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              color: 'black',
-              fontSize: 16,
-              fontFamily: 'Chivo Mono',
-              fontWeight: 600,
-              lineHeight: '19.2px',
-              letterSpacing: '0.08px',
               textDecoration: 'none',
-              transition: 'background-color 0.3s ease'
+              borderRadius: '22px',
+              backgroundColor: 'rgba(0, 88, 28, 0.25)',
+              paddingLeft: '24px',
+              paddingRight: '24px'
             }}
-            className="lets-talk-button"
             >Let's Talk</a>
           </div>
         )}
       </div>
 
       {isMobile && (
-        <div className="mobile-menu" style={{
+        <div ref={menuRef} className="mobile-menu" style={{
           position: 'fixed',
-          top: 80,
+          top: isMobile ? 70 : 80,
           left: 0,
           width: '100%',
           background: 'white',
           borderBottom: '1px #D9D9D9 solid',
-          padding: 20,
-          display: mobileMenuOpen ? 'flex' : 'none',
+          padding: '16px',
+          display: 'flex',
           flexDirection: 'column',
-          gap: 20,
-          zIndex: 999
+          gap: 16,
+          zIndex: 999,
+          opacity: mobileMenuOpen ? 1 : 0,
+          transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(-20px)',
+          transition: 'opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease',
+          pointerEvents: mobileMenuOpen ? 'auto' : 'none',
+          maxHeight: mobileMenuOpen ? '300px' : '0',
+          overflow: 'hidden',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)'
         }}>
           <a href="#work" className="nav-link" style={{
             fontSize: 18,
             fontFamily: 'Chivo Mono',
             textDecoration: 'none',
-            color: 'black'
+            color: 'black',
+            padding: '12px 0',
+            borderBottom: '1px solid #f5f5f5'
           }}>Work</a>
           <a href="#about" className="nav-link" style={{
             fontSize: 18,
             fontFamily: 'Chivo Mono',
             textDecoration: 'none',
-            color: 'black'
+            color: 'black',
+            padding: '12px 0',
+            borderBottom: '1px solid #f5f5f5'
           }}>About</a>
-          <a href="#talk" className="green-button" style={{
-            display: 'inline-block',
-            padding: '10px 20px',
-            background: 'rgba(0, 88, 28, 0.25)',
+          <a href="#talk" className="nav-link" style={{
             fontSize: 18,
             fontFamily: 'Chivo Mono',
-            fontWeight: 600,
             textDecoration: 'none',
             color: 'black',
-            width: 'fit-content'
+            padding: '12px 0',
+            borderBottom: '1px solid #f5f5f5'
           }}>Let's Talk</a>
         </div>
       )}

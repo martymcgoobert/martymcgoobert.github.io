@@ -10,27 +10,33 @@ const Footer: React.FC<FooterProps> = ({ isMobile = window.innerWidth <= 768 }) 
   return (
     <footer className="footer" id="talk" style={{
       width: '100%',
-      height: '80vh',
-      padding: isMobile ? '40px 16px' : '80px 80px',
+      height: isMobile ? 'auto' : '80vh',
+      padding: isMobile ? '40px 16px 0' : '80px 80px',
+      minHeight: isMobile ? '600px' : '80vh',
       background: 'white',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
-      gap: '40px',
+      justifyContent: isMobile ? 'space-between' : 'center',
+      gap: isMobile ? '20px' : '40px',
       margin: 0,
-      borderTop: 'none'
+      borderTop: 'none',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
-      <div style={{
+      <div className="container-max" style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '40px',
-        maxWidth: '900px',
+        gap: isMobile ? '30px' : '40px',
+        maxWidth: '1440px',
         width: '100%',
-        marginTop: '120px'
+        marginTop: isMobile ? '30px' : '120px',
+        marginBottom: isMobile ? '30px' : '0',
+        padding: isMobile ? '0 16px' : '0 20px',
+        flex: isMobile ? '1 0 auto' : 'none'
       }}>
-        <div style={{
+        <div className="fade-in" style={{
           textAlign: 'center'
         }}>
           <div style={{
@@ -44,8 +50,9 @@ const Footer: React.FC<FooterProps> = ({ isMobile = window.innerWidth <= 768 }) 
           </div>
         </div>
 
-        <div style={{
+        <div className="fade-in" style={{
           display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
           gap: '30px',
           width: '100%',
           justifyContent: 'center',
@@ -57,55 +64,59 @@ const Footer: React.FC<FooterProps> = ({ isMobile = window.innerWidth <= 768 }) 
               navigator.clipboard.writeText('mattjmitchellux@gmail.com');
               alert('Email copied to clipboard!');
             }}
+            className="email-button"
             style={{
-              width: '420px',
+              width: isMobile ? '100%' : 'calc(50% - 15px)',
               height: '76px',
-              background: 'black',
-              borderRadius: '50px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              textDecoration: 'none',
-              color: 'white',
               fontSize: 20,
-              fontFamily: 'Chivo Mono',
-              fontWeight: 500,
               border: 'none',
               cursor: 'pointer',
-              transition: 'background-color 0.3s ease'
+              borderRadius: '38px',
+              color: 'white',
+              backgroundColor: 'black'
             }}
-            className="email-button"
           >
             mattjmitchellux@gmail.com
           </button>
 
           {/* LinkedIn Button */}
-          <a href="https://www.linkedin.com/in/matthew-mitchell-955703a2/" target="_blank" rel="noopener noreferrer" style={{
-            width: '420px',
+          <a href="https://www.linkedin.com/in/matthew-mitchell-955703a2/" target="_blank" rel="noopener noreferrer"
+          className="linkedin-button"
+          style={{
+            width: isMobile ? '100%' : 'calc(50% - 15px)',
             height: '76px',
-            background: 'rgba(0, 88, 28, 0.25)',
-            borderRadius: '50px',
             display: 'flex',
             alignItems: 'center',
             textDecoration: 'none',
             overflow: 'hidden',
-            transition: 'background-color 0.3s ease'
-          }}
-          className="linkedin-button">
+            borderRadius: '38px',
+            backgroundColor: 'rgba(0, 88, 28, 0.25)'
+          }}>
             <div style={{
-              width: '60px',
-              height: '60px',
+              width: isMobile ? '50px' : '60px',
+              height: isMobile ? '50px' : '60px',
               borderRadius: '50%',
               overflow: 'hidden',
-              marginLeft: '4px',
-              marginRight: '16px'
+              marginLeft: isMobile ? '8px' : '8px',
+              marginRight: '16px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              background: '#D9D9D9',
+              padding: 0
             }}>
               <img
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: 'center'
+                  objectPosition: 'center',
+                  borderRadius: '50%',
+                  maxWidth: isMobile ? '50px' : '60px',
+                  maxHeight: isMobile ? '50px' : '60px'
                 }}
                 src={mattPhoto}
                 alt="Profile"
@@ -127,10 +138,15 @@ const Footer: React.FC<FooterProps> = ({ isMobile = window.innerWidth <= 768 }) 
       </div>
 
       {/* Footer image (full width) */}
-      <div style={{
+      <div className="fade-in-scale" style={{
         maxWidth: '1440px',
-        height: '402px',
-        overflow: 'hidden'
+        width: '100%',
+        height: isMobile ? '200px' : '402px',
+        overflow: 'hidden',
+        padding: 0,
+        marginTop: isMobile ? 'auto' : '0',
+        alignSelf: isMobile ? 'flex-end' : 'center',
+        margin: '0 auto'
       }}>
         <img
           style={{

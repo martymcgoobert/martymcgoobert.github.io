@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { setupLazyVideoLoading } from '../utils/lazyLoadVideo';
 import { setupLazyImageLoading } from '../utils/lazyLoadImage';
+import { setupScrollAnimations } from '../utils/animateOnScroll';
 import '../styles/minimal.css';
 
 // Import images and media
@@ -49,6 +50,9 @@ const MinimalHomePage: React.FC = () => {
     // Setup lazy loading for videos and images
     setupLazyVideoLoading();
     setupLazyImageLoading();
+
+    // Setup animations for elements entering viewport
+    setupScrollAnimations();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);

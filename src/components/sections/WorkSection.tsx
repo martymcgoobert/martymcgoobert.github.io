@@ -29,8 +29,8 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         height: 'auto',
         background: '#D1E0D5',
         padding: isMobile ? '16px' : '20px',
-        paddingTop: '140px',
-        paddingBottom: '140px',
+        paddingTop: isMobile ? '80px' : '140px',
+        paddingBottom: isMobile ? '80px' : '140px',
         boxSizing: 'border-box',
         margin: 0,
         position: 'relative',
@@ -38,10 +38,11 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         overflow: 'visible'
       }}
     >
-      <div style={{
+      <div className="container-max" style={{
         maxWidth: '1440px',
         width: '100%',
-        margin: '0 auto'
+        margin: '0 auto',
+        padding: isMobile ? '0 16px' : '0 20px'
       }}>
         <div className="work-header" style={{
           display: 'flex',
@@ -50,17 +51,14 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
           marginBottom: '0px',
           width: '100%'
         }}>
-        <h2 style={{
-          color: 'black',
-          fontSize: 40,
+        <div className="newspaper-title fade-in" style={{
+          fontSize: isMobile ? 48 : 72,
           fontWeight: 400,
-          lineHeight: '44px',
-          fontFamily: 'Chivo Mono',
-          margin: 0,
-          marginBottom: '40px'
+          lineHeight: isMobile ? '56px' : '80px',
+          marginBottom: isMobile ? '24px' : '40px'
         }}>
-          Latest Work
-        </h2>
+          Work
+        </div>
         <div style={{
           color: 'black',
           fontSize: 16,
@@ -72,14 +70,14 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
       </div>
 
       {/* Main project (Zenith) */}
-      <div style={{
+      <div className="fade-in-scale" style={{
         width: '100%',
         height: 'auto',
         aspectRatio: '16/9',
         position: 'relative',
         overflow: 'hidden',
         borderRadius: '0px',
-        marginBottom: '20px',
+        marginBottom: isMobile ? '16px' : '20px',
         display: 'block',
         background: '#000'
       }}>
@@ -104,17 +102,21 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
       {/* Smaller projects (side by side) */}
       <div style={{
         display: 'flex',
-        gap: '20px',
-        width: '100%'
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: isMobile ? '16px' : '20px',
+        width: '100%',
+        marginBottom: isMobile ? '40px' : '0'
       }}>
         {/* Orbit Project */}
-        <div style={{
+        <div className="fade-in-left" style={{
           flex: '1 1 0',
           position: 'relative',
           background: '#D1E0D5',
           aspectRatio: '1/1',
           overflow: 'hidden',
-          display: 'block'
+          display: 'block',
+          width: '100%',
+          minHeight: isMobile ? '250px' : 'auto'
         }}>
           <img
             src={mobileUI}
@@ -129,13 +131,15 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         </div>
 
         {/* Cloud App Project */}
-        <div style={{
+        <div className="fade-in-right" style={{
           flex: '1 1 0',
           position: 'relative',
           background: '#D1E0D5',
           aspectRatio: '1/1',
           overflow: 'hidden',
-          display: 'block'
+          display: 'block',
+          width: '100%',
+          minHeight: isMobile ? '250px' : 'auto'
         }}>
           <img
             src={appIcon}

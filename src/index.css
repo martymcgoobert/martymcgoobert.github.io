@@ -1,9 +1,11 @@
 @import './styles/fonts.css';
-@import './styles/minimal.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import './styles/minimal.css';
+@import './styles/utilities.css';
 
 /* Base styles */
 * {
