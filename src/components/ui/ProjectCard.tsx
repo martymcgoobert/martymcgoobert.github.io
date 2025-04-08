@@ -30,6 +30,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             loop
             muted
             playsInline
+            preload="auto"
+            width="100%"
+            height="100%"
             className="project-media"
             style={{
               width: '100%',
