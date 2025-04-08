@@ -9,8 +9,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   // Determine if it's the main project (Zenith)
   const isMainProject = project.title === 'Zenith';
 
-  // Check if we're on mobile
-  const isMobile = window.innerWidth <= 768;
+  // We'll use this later if needed
+  // const isMobile = window.innerWidth <= 768;
 
   if (isMainProject) {
     return (
