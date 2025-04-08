@@ -86,7 +86,10 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
           loop
           muted
           playsInline
-          preload="none"
+          preload="auto"
+          width="100%"
+          height="100%"
+          controls
           style={{
             width: '100%',
             height: '100%',

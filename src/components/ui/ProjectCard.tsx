@@ -33,6 +33,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             preload="auto"
             width="100%"
             height="100%"
+            controls
             className="project-media"
             style={{
               width: '100%',
