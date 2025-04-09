@@ -7,6 +7,8 @@ import mobileUI from '../../assets/mobileui.png';
 import appIcon from '../../assets/appicon.png';
 import zenithVideo from '../../assets/zenith-demo.mp4';
 import zenithVideoWEBM from '../../assets/zenith-demo.webm';
+import bikesVideo from '../../assets/bikes.mp4';
+import bikesVideoWEBM from '../../assets/bikes.webm';
 
 interface WorkSectionProps {
   workRef: React.RefObject<HTMLDivElement>;
@@ -28,7 +30,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         opacity: 1, // Set to 1 to ensure visibility
         width: '100%',
         height: 'auto',
-        background: '#D1E0D5',
+        background: '#000000',
         padding: isMobile ? '16px' : '20px',
         paddingTop: isMobile ? '80px' : '140px',
         paddingBottom: isMobile ? '80px' : '140px',
@@ -56,12 +58,13 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
           fontSize: isMobile ? 48 : 72,
           fontWeight: 400,
           lineHeight: isMobile ? '56px' : '80px',
-          marginBottom: isMobile ? '24px' : '40px'
+          marginBottom: isMobile ? '24px' : '40px',
+          color: 'white'
         }}>
           Work
         </div>
         <div style={{
-          color: 'black',
+          color: 'white',
           fontSize: 16,
           fontFamily: 'Chivo Mono',
           fontWeight: 400
@@ -120,7 +123,8 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover'
+              objectFit: 'cover',
+              background: '#000000'
             }}
           />
         </div>
@@ -143,10 +147,35 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover'
+              objectFit: 'cover',
+              background: '#000000'
             }}
           />
         </div>
+      </div>
+
+      {/* Bikes Video */}
+      <div className="fade-in-scale" style={{
+        width: '100%',
+        height: 'auto',
+        aspectRatio: '16/9',
+        position: 'relative',
+        overflow: 'hidden',
+        borderRadius: '0px',
+        marginTop: isMobile ? '16px' : '20px',
+        display: 'block',
+        background: '#000000'
+      }}>
+        <AutoplayVideo
+          mp4Src={bikesVideo}
+          webmSrc={bikesVideoWEBM}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            background: '#000000'
+          }}
+        />
       </div>
       </div>
     </section>
