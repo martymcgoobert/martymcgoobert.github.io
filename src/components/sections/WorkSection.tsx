@@ -31,7 +31,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         width: '100%',
         height: 'auto',
         background: '#000000',
-        padding: isMobile ? '16px' : '20px',
+        padding: isMobile ? '16px 0' : '20px',
         paddingTop: isMobile ? '80px' : '140px',
         paddingBottom: isMobile ? '80px' : '140px',
         boxSizing: 'border-box',
@@ -45,14 +45,15 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         maxWidth: '1440px',
         width: '100%',
         margin: '0 auto',
-        padding: isMobile ? '0 16px' : '0 20px'
+        padding: isMobile ? '0' : '0 20px'
       }}>
         <div className="work-header" style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           marginBottom: '0px',
-          width: '100%'
+          width: '100%',
+          padding: isMobile ? '0 16px' : '0'
         }}>
         <div className="newspaper-title fade-in" style={{
           fontSize: isMobile ? 48 : 72,
@@ -75,7 +76,9 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
 
       {/* Main project (Zenith) */}
       <div className="fade-in-scale" style={{
-        width: '100%',
+        marginLeft: isMobile ? '-16px' : '0',
+        marginRight: isMobile ? '-16px' : '0',
+        width: isMobile ? 'calc(100% + 32px)' : '100%',
         height: 'auto',
         aspectRatio: '16/9',
         position: 'relative',
@@ -102,7 +105,9 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
         gap: isMobile ? '16px' : '20px',
-        width: '100%',
+        marginLeft: isMobile ? '-16px' : '0',
+        marginRight: isMobile ? '-16px' : '0',
+        width: isMobile ? 'calc(100% + 32px)' : '100%',
         marginBottom: isMobile ? '40px' : '0'
       }}>
         {/* Orbit Project */}
@@ -114,6 +119,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
           overflow: 'hidden',
           display: 'block',
           width: '100%',
+          padding: isMobile ? '0 16px' : '0',
           minHeight: isMobile ? '250px' : 'auto'
         }}>
           <img
@@ -138,6 +144,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
           overflow: 'hidden',
           display: 'block',
           width: '100%',
+          padding: isMobile ? '0 16px' : '0',
           minHeight: isMobile ? '250px' : 'auto'
         }}>
           <img
@@ -156,7 +163,9 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
 
       {/* Bikes Video */}
       <div className="fade-in-scale" style={{
-        width: '100%',
+        marginLeft: isMobile ? '-16px' : '0',
+        marginRight: isMobile ? '-16px' : '0',
+        width: isMobile ? 'calc(100% + 32px)' : '100%',
         height: 'auto',
         aspectRatio: '16/9',
         position: 'relative',
