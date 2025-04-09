@@ -33,7 +33,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             preload="auto"
             width="100%"
             height="100%"
-            controls
+            webkit-playsinline="true"
+            x5-playsinline="true"
+            x5-video-player-type="h5"
+            x5-video-player-fullscreen="true"
             className="project-media"
             style={{
               width: '100%',

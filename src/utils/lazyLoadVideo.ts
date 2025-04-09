@@ -2,6 +2,19 @@
  * Utility function to lazy load videos using Intersection Observer
  * This will only start loading the video when it comes into the viewport
  */
+// Function to force play all videos
+const forcePlayVideos = () => {
+  document.querySelectorAll('video[autoplay]').forEach(video => {
+    const videoElement = video as HTMLVideoElement;
+    videoElement.play().catch(() => {
+      // Try again after a short delay
+      setTimeout(() => {
+        videoElement.play().catch(e => console.error('Could not autoplay video:', e));
+      }, 500);
+    });
+  });
+};
+
 export const setupLazyVideoLoading = (): void => {
   // Check if IntersectionObserver is supported
   if ('IntersectionObserver' in window) {
@@ -21,9 +34,20 @@ export const setupLazyVideoLoading = (): void => {
             // Load the video
             video.load();
 
-            // Start playing if it has autoplay attribute
+            // Force play the video with multiple attempts for mobile
             if (video.autoplay) {
-              video.play().catch(e => console.error('Error playing video:', e));
+              // First attempt
+              video.play().catch(() => {
+                // Second attempt with timeout
+                setTimeout(() => {
+                  video.play().catch(() => {
+                    // Third attempt with user interaction simulation
+                    document.addEventListener('touchstart', () => {
+                      video.play().catch(e => console.error('Final error playing video:', e));
+                    }, { once: true });
+                  });
+                }, 1000);
+              });
             }
 
             // Stop observing this video
@@ -40,5 +64,25 @@ export const setupLazyVideoLoading = (): void => {
     document.querySelectorAll('video').forEach(video => {
       videoObserver.observe(video);
     });
+
+    // Try to force play videos after a short delay
+    setTimeout(forcePlayVideos, 1000);
+
+    // Also try to play videos on first user interaction
+    const userInteractionEvents = ['touchstart', 'click', 'scroll'];
+    userInteractionEvents.forEach(event => {
+      document.addEventListener(event, () => {
+        forcePlayVideos();
+        // Remove these event listeners after first interaction
+        userInteractionEvents.forEach(e => {
+          document.removeEventListener(e, forcePlayVideos);
+        });
+      }, { once: true });
+    });
+  }
+
+  // For browsers without IntersectionObserver, just try to play videos
+  else {
+    setTimeout(forcePlayVideos, 1000);
   }
 };
