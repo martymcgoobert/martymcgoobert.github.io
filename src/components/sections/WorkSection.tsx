@@ -82,11 +82,12 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         height: 'auto',
         aspectRatio: '16/9',
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'visible',
         borderRadius: '0px',
         marginBottom: isMobile ? '16px' : '20px',
         display: 'block',
-        background: '#000'
+        background: '#000',
+        zIndex: 1
       }}>
         <AutoplayVideo
           mp4Src={zenithVideo}
@@ -94,8 +95,10 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
-            background: '#000000'
+            objectFit: 'contain',
+            background: '#000000',
+            position: 'relative',
+            zIndex: 2
           }}
         />
       </div>
@@ -116,11 +119,12 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
           position: 'relative',
           background: '#000000',
           aspectRatio: '1/1',
-          overflow: 'hidden',
+          overflow: 'visible',
           display: 'block',
           width: '100%',
           padding: isMobile ? '0 16px' : '0',
-          minHeight: isMobile ? '250px' : 'auto'
+          minHeight: isMobile ? '250px' : 'auto',
+          zIndex: 1
         }}>
           <img
             src={mobileUI}
@@ -129,8 +133,10 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
-              background: '#000000'
+              objectFit: 'contain',
+              background: '#000000',
+              position: 'relative',
+              zIndex: 2
             }}
           />
         </div>
@@ -141,11 +147,12 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
           position: 'relative',
           background: '#000000',
           aspectRatio: '1/1',
-          overflow: 'hidden',
+          overflow: 'visible',
           display: 'block',
           width: '100%',
           padding: isMobile ? '0 16px' : '0',
-          minHeight: isMobile ? '250px' : 'auto'
+          minHeight: isMobile ? '250px' : 'auto',
+          zIndex: 1
         }}>
           <img
             src={appIcon}
@@ -154,8 +161,10 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
-              background: '#000000'
+              objectFit: 'contain',
+              background: '#000000',
+              position: 'relative',
+              zIndex: 2
             }}
           />
         </div>
@@ -169,11 +178,12 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         height: 'auto',
         aspectRatio: '16/9',
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'visible',
         borderRadius: '0px',
         marginTop: isMobile ? '16px' : '20px',
         display: 'block',
-        background: '#000000'
+        background: '#000000',
+        zIndex: 1
       }}>
         <AutoplayVideo
           mp4Src={bikesVideo}
@@ -181,8 +191,10 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
-            background: '#000000'
+            objectFit: 'contain',
+            background: '#000000',
+            position: 'relative',
+            zIndex: 2
           }}
         />
       </div>
