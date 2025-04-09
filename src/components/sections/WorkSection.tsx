@@ -1,5 +1,6 @@
 import React from 'react';
 import { Project } from '../../types/project';
+import AutoplayVideo from '../ui/AutoplayVideo';
 
 // Import media assets
 import mobileUI from '../../assets/mobileui.png';
@@ -81,28 +82,16 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         display: 'block',
         background: '#000'
       }}>
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          width="100%"
-          height="100%"
-          webkit-playsinline="true"
-          x5-playsinline="true"
-          x5-video-player-type="h5"
-          x5-video-player-fullscreen="true"
+        <AutoplayVideo
+          mp4Src={zenithVideo}
+          webmSrc={zenithVideoWEBM}
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            background: '#D1E0D5'
+            background: '#000000'
           }}
-        >
-          <source src={zenithVideoWEBM} type="video/webm" />
-          <source src={zenithVideo} type="video/mp4" />
-        </video>
+        />
       </div>
 
       {/* Smaller projects (side by side) */}
@@ -117,7 +106,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         <div className="fade-in-left" style={{
           flex: '1 1 0',
           position: 'relative',
-          background: '#D1E0D5',
+          background: '#000000',
           aspectRatio: '1/1',
           overflow: 'hidden',
           display: 'block',
@@ -140,7 +129,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ workRef, isMobile }) => {
         <div className="fade-in-right" style={{
           flex: '1 1 0',
           position: 'relative',
-          background: '#D1E0D5',
+          background: '#000000',
           aspectRatio: '1/1',
           overflow: 'hidden',
           display: 'block',

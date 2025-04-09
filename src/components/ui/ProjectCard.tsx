@@ -1,5 +1,6 @@
 import React from 'react';
 import { Project } from '../../types/project';
+import AutoplayVideo from './AutoplayVideo';
 
 interface ProjectCardProps {
   project: Project;
@@ -25,34 +26,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         display: 'block'
       }}>
         {project.mediaType === 'video' && project.media ? (
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            width="100%"
-            height="100%"
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            x5-video-player-type="h5"
-            x5-video-player-fullscreen="true"
+          <AutoplayVideo
+            mp4Src={project.media.mp4 || ''}
+            webmSrc={project.media.webm}
             className="project-media"
             style={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              background: '#D1E0D5'
+              background: '#000000'
             }}
-          >
-            {project.media.webm && <source src={project.media.webm} type="video/webm" />}
-            {project.media.mp4 && <source src={project.media.mp4} type="video/mp4" />}
-          </video>
+          />
         ) : (
           <div style={{
             width: '100%',
             height: '100%',
-            background: '#D1E0D5'
+            background: '#000000'
           }}></div>
         )}
       </div>
@@ -63,7 +52,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       <div className="project-smaller" style={{
         flex: '1 1 0',
         position: 'relative',
-        background: '#D1E0D5',
+        background: '#000000',
         aspectRatio: '1/1',
         overflow: 'hidden',
         display: 'block'
@@ -83,7 +72,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           <div style={{
             width: '100%',
             height: '100%',
-            background: '#D1E0D5'
+            background: '#000000'
           }}></div>
         )}
       </div>
