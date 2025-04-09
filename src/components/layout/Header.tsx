@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface HeaderProps {
   scrollY: number;
@@ -17,6 +17,10 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const burgerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isOverDarkSection, setIsOverDarkSection] = useState(false);
+  const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
@@ -37,6 +41,55 @@ const Header: React.FC<HeaderProps> = ({
       document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [mobileMenuOpen, setMobileMenuOpen]);
+
+  // Handle scroll direction and visibility
+  useEffect(() => {
+    // Check if scrolling down (hide) or up (show)
+    if (scrollY > lastScrollY && scrollY > 100) {
+      // Scrolling down - hide the header
+      setIsVisible(false);
+
+      // Clear any existing timeout
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+      }
+
+      // Set a timeout to show the header after 10 seconds of no scrolling
+      const timeout = setTimeout(() => {
+        setIsVisible(true);
+      }, 10000);
+
+      setHideTimeout(timeout);
+    } else {
+      // Scrolling up - show the header
+      setIsVisible(true);
+
+      // Clear any existing timeout
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+      }
+    }
+
+    // Update last scroll position
+    setLastScrollY(scrollY);
+
+    // Check if we're over the work section (which has a dark background)
+    const workSection = document.getElementById('work');
+    if (workSection) {
+      const workSectionTop = workSection.offsetTop;
+      const workSectionBottom = workSectionTop + workSection.offsetHeight;
+
+      // Check if the header is over the work section
+      setIsOverDarkSection(scrollY >= workSectionTop - 80 && scrollY < workSectionBottom - 80);
+    }
+
+    // Cleanup function
+    return () => {
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+      }
+    };
+  }, [scrollY, lastScrollY, hideTimeout]);
   return (
     <header
       className={`header ${scrollY > 100 ? 'scrolled' : ''} ${isMobile && mobileMenuOpen ? 'mobile-menu-open' : ''}`}
@@ -46,8 +99,8 @@ const Header: React.FC<HeaderProps> = ({
         position: 'fixed',
         top: 0,
         left: 0,
-        background: 'rgba(255, 255, 255, 0.7)',
-        borderBottom: '1px rgba(217, 217, 217, 0.3) solid',
+        background: isOverDarkSection ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+        borderBottom: isOverDarkSection ? '1px rgba(255, 255, 255, 0.1) solid' : '1px rgba(217, 217, 217, 0.3) solid',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
 
@@ -56,7 +109,11 @@ const Header: React.FC<HeaderProps> = ({
         alignItems: 'center',
         zIndex: 1000,
         margin: 0,
-        padding: 0
+        padding: 0,
+
+        // Transition for smooth appearance/disappearance
+        transition: 'transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease',
+        transform: isVisible ? 'translateY(0)' : 'translateY(-100%)'
       }}
     >
       <div className="container-max" style={{
@@ -78,7 +135,7 @@ const Header: React.FC<HeaderProps> = ({
           }}
         >
           <div className="newspaper-title" style={{
-            color: 'black',
+            color: isOverDarkSection ? 'white' : 'black',
             fontSize: isMobile ? 20 : 24,
             fontWeight: 400,
             lineHeight: isMobile ? '24px' : '28px',
@@ -114,13 +171,13 @@ const Header: React.FC<HeaderProps> = ({
             <div style={{
               width: '100%',
               height: '3px',
-              backgroundColor: 'black',
+              backgroundColor: isOverDarkSection ? 'white' : 'black',
               borderRadius: '2px'
             }} />
             <div style={{
               width: '100%',
               height: '3px',
-              backgroundColor: 'black',
+              backgroundColor: isOverDarkSection ? 'white' : 'black',
               marginTop: '5px',
               marginBottom: '5px',
               borderRadius: '2px'
@@ -128,7 +185,7 @@ const Header: React.FC<HeaderProps> = ({
             <div style={{
               width: '100%',
               height: '3px',
-              backgroundColor: 'black',
+              backgroundColor: isOverDarkSection ? 'white' : 'black',
               borderRadius: '2px'
             }} />
           </div>
@@ -146,7 +203,7 @@ const Header: React.FC<HeaderProps> = ({
               alignItems: 'center'
             }}>
               <a href="#work" className="nav-link" style={{
-                color: 'black',
+                color: isOverDarkSection ? 'white' : 'black',
                 fontSize: 16,
                 fontFamily: 'Chivo Mono',
                 fontWeight: 400,
@@ -161,7 +218,7 @@ const Header: React.FC<HeaderProps> = ({
               alignItems: 'center'
             }}>
               <a href="#about" className="nav-link" style={{
-                color: 'black',
+                color: isOverDarkSection ? 'white' : 'black',
                 fontSize: 16,
                 fontFamily: 'Chivo Mono',
                 fontWeight: 400,
@@ -179,7 +236,8 @@ const Header: React.FC<HeaderProps> = ({
               alignItems: 'center',
               textDecoration: 'none',
               borderRadius: '22px',
-              backgroundColor: 'rgba(0, 88, 28, 0.25)',
+              backgroundColor: isOverDarkSection ? 'rgba(0, 188, 28, 0.5)' : 'rgba(0, 88, 28, 0.25)',
+              color: isOverDarkSection ? 'white' : 'black',
               paddingLeft: '24px',
               paddingRight: '24px'
             }}
@@ -194,8 +252,8 @@ const Header: React.FC<HeaderProps> = ({
           top: isMobile ? 70 : 80,
           left: 0,
           width: '100%',
-          background: 'white',
-          borderBottom: '1px #D9D9D9 solid',
+          background: isOverDarkSection ? 'rgba(0, 0, 0, 0.9)' : 'white',
+          borderBottom: isOverDarkSection ? '1px rgba(255, 255, 255, 0.1) solid' : '1px #D9D9D9 solid',
           padding: '16px',
           display: 'flex',
           flexDirection: 'column',
@@ -215,25 +273,25 @@ const Header: React.FC<HeaderProps> = ({
             fontSize: 18,
             fontFamily: 'Chivo Mono',
             textDecoration: 'none',
-            color: 'black',
+            color: isOverDarkSection ? 'white' : 'black',
             padding: '12px 0',
-            borderBottom: '1px solid #f5f5f5'
+            borderBottom: isOverDarkSection ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #f5f5f5'
           }}>Work</a>
           <a href="#about" className="nav-link" style={{
             fontSize: 18,
             fontFamily: 'Chivo Mono',
             textDecoration: 'none',
-            color: 'black',
+            color: isOverDarkSection ? 'white' : 'black',
             padding: '12px 0',
-            borderBottom: '1px solid #f5f5f5'
+            borderBottom: isOverDarkSection ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #f5f5f5'
           }}>About</a>
           <a href="#talk" className="nav-link" style={{
             fontSize: 18,
             fontFamily: 'Chivo Mono',
             textDecoration: 'none',
-            color: 'black',
+            color: isOverDarkSection ? 'white' : 'black',
             padding: '12px 0',
-            borderBottom: '1px solid #f5f5f5'
+            borderBottom: isOverDarkSection ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #f5f5f5'
           }}>Let's Talk</a>
         </div>
       )}

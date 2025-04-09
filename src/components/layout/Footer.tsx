@@ -10,14 +10,14 @@ const Footer: React.FC<FooterProps> = ({ isMobile = window.innerWidth <= 768 }) 
   return (
     <footer className="footer" id="talk" style={{
       width: '100%',
-      height: isMobile ? 'auto' : '80vh',
-      padding: isMobile ? '40px 16px 0' : '80px 80px',
-      minHeight: isMobile ? '600px' : '80vh',
+      height: isMobile ? 'auto' : '100vh',
+      padding: isMobile ? '40px 16px 0' : '0 20px',
+      minHeight: isMobile ? '600px' : '100vh',
       background: 'white',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: isMobile ? 'space-between' : 'center',
+      justifyContent: isMobile ? 'space-between' : 'flex-start',
       gap: isMobile ? '20px' : '40px',
       margin: 0,
       borderTop: 'none',
@@ -31,8 +31,8 @@ const Footer: React.FC<FooterProps> = ({ isMobile = window.innerWidth <= 768 }) 
         gap: isMobile ? '30px' : '40px',
         maxWidth: '1440px',
         width: '100%',
-        marginTop: isMobile ? '30px' : '120px',
-        marginBottom: isMobile ? '30px' : '0',
+        marginTop: isMobile ? '30px' : '160px',
+        marginBottom: isMobile ? '30px' : '40px',
         padding: isMobile ? '0 16px' : '0 20px',
         flex: isMobile ? '1 0 auto' : 'none'
       }}>
@@ -144,8 +144,8 @@ const Footer: React.FC<FooterProps> = ({ isMobile = window.innerWidth <= 768 }) 
         height: isMobile ? '200px' : '402px',
         overflow: 'hidden',
         padding: 0,
-        marginTop: isMobile ? 'auto' : '0',
-        alignSelf: isMobile ? 'flex-end' : 'center',
+        marginTop: isMobile ? 'auto' : 'auto',
+        alignSelf: 'center',
         margin: '0 auto'
       }}>
         <img
